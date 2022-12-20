@@ -1,0 +1,60 @@
+.container{
+    border-style: groove;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: .1fr;
+    text-align: center;
+    min-height: 100vh;
+}
+.form-heading{
+    border-style: groove;
+}
+.h1{
+    text-align: center;
+}
+
+.books-heading{
+    border-style: groove;
+}
+.form{
+    border-style: center;
+}
+
+.books{
+    background-color: #bccbde;
+    border-style: groove;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    grid-column: 2/3;
+    gap: 15px;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-right: 15px;
+}
+
+.books .card{
+    background-color: #ffffff;
+    color: black;
+    text-align: center;
+    height: 400px;
+    display: grid;
+}
+
+input{
+    margin: 5px;
+    width: 250px;
+
+}
+
+#add-book-form{
+background-color: aqua;
+}
+
+button{
+    background-color: white;
+    font-size: large;
+    margin: 5px;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-weight: bold;
+}
