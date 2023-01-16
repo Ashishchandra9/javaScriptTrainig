@@ -26,3 +26,9 @@ function startGame(){
     playerTurn = false;
     cellElements.forEach
 }
+
+const xhr =new XMLHttpRequest();
+
+xhr.open('Get','https://jsonplaceholder.typicode.com/posts');
+
+xhr.send();
