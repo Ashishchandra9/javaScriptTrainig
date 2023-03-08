@@ -1,116 +1,138 @@
-let myLibrary = []
+
+let myLibrary = [];
 
 
-function Book(Title, Author,Pages,Read){
+class Book {
+  constructor(Title, Author, Pages, Read) {
     this.Title = Title;
-    this.Author= Author;
+    this.Author = Author;
     this.Pages = Pages;
     this.Read = Read;
-    // this.info = function()
-    // {
-    //     return (Title + Author + " , " + Pages + " , " + Read)
-    // }
+  }
+}
+
+// Function for adding a new book to the array/library
+function addBookToLibrary(Title, Author, Pages, Read) {
+  let book = new Book(Title, Author, Pages, Read);
+  myLibrary.push(book);
+  displayBooksOnPage();
 }
 
 
-function addBookTooLibrary (Title,Author,Pages,Read){
-    let book = new Book(Title,Author,Pages,Read);
-    myLibrary.push(book);
-    displayBooksOnPages();
-}
+function displayBooksOnPage() {
+  const books = document.querySelector(".books");
+  const removeDivs = document.querySelectorAll(".card");
+  
+  for (let i = 0; i < removeDivs.length; i++) {
+    removeDivs[i].remove();
+  }
 
-// const thehobbit = new Book("The Hobbit", " by J.R.R. Tolien", "295 Pages", "not Read yet");
-// console.log(thehobbit.info());
-
-
-
-
-
-function displayBooksOnPages(){
-    const books = document.querySelector('.books');
+ 
+  let index = 0;
+  myLibrary.forEach((myLibrarys) => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    books.appendChild(card);
 
   
+    const removeBookButton = document.createElement("button");
+    removeBookButton.classList.add("remove-book-button");
+    removeBookButton.textContent = "Remove From Library";
+    console.log(
+      myLibrary
+    );
 
-let index= 0;
-    myLibrary.forEach(myLibrarys =>{
-        const card = document.createElement('div');
-        card.classList.add("card");
-        books.appendChild(card);
-        for (let key in myLibrarys){
-            const para = document.createElement("p");
-            para.textContent = (`${key}: ${myLibrarys[key]}`);
-            card.appendChild(para);
-        }
+  //  we set data attribute
+    removeBookButton.dataset.linkedArray = index;
+    card.appendChild(removeBookButton);
 
-        const removeBookButton = document.createElement("button");
-        removeBookButton.classList.add("remove-book-button");
-        removeBookButton.textContent = "Remove";
+    
+    removeBookButton.addEventListener("click", removeBookFromLibrary);
 
-        removeBookButton.dataset.linkedArray = index;
-        index++;
-        card.appendChild(removeBookButton);
-
-        removeBookButton.addEventListener('click',removeBookFromLibrary);
-
-        function removeBookFromLibrary(){
-            let retrieveBookToRemove = removeBookButton.dataset.linkedArray
-            myLibrary.splice(parseInt(retrieveBookToRemove), 1);
-            card.remove();
-            displayBooksOnPages();
-        }
-         
-        
-    })
-
-    const removeDivs = document.querySelector(".card");
-    for (let i =0; i< removeDivs.length; i++){
-        removeDivs[i].remove();
+    // through data attribute we remove book
+    function removeBookFromLibrary() {
+      let retrieveBookToRemove = removeBookButton.dataset.linkedArray;
+      console.log(retrieveBookToRemove);
+      myLibrary.splice(parseInt(retrieveBookToRemove), 1);
+      card.remove();
+      displayBooksOnPage();
     }
+
+   
+    const readStatusButton = document.createElement("button");
+    readStatusButton.classList.add("read-status-button");
+    readStatusButton.textContent = "Toggle Read Status";
+
+   
+    readStatusButton.dataset.linkedArray = index;
+    card.appendChild(readStatusButton);
+
+   
+    readStatusButton.addEventListener("click", toggleReadStatus);
+
+    function toggleReadStatus() {
+      let retrieveBookToToggle = readStatusButton.dataset.linkedArray;
+      // Book.prototype = Object.create(Book.prototype);
+      // const toggleBook = new Book();
+     
+const toggleBook ='';
+    
+      if (myLibrary[parseInt(retrieveBookToToggle)].Read == "Yes") {
+        // toggleBook.Read = "No";
+        myLibrary[parseInt(retrieveBookToToggle)].Read = 'No';
+      } else if (myLibrary[parseInt(retrieveBookToToggle)].Read == "No") {
+        toggleBook.Read = "Yes";
+        myLibrary[parseInt(retrieveBookToToggle)].Read = 'Yes';
+      }
+      displayBooksOnPage();
+    }
+
+  
+    for (let key in myLibrarys) {
+      const para = document.createElement("p");
+      para.textContent = `${key}: ${myLibrarys[key]}`;
+      card.appendChild(para);
+    }
+
+    index++;
+  });
 }
 
 
+const addBookButton = document.querySelector(".add-book-button");
+addBookButton.addEventListener("click", displayTheForm);
 
-
-
-
-//  add new book btn
-
-const addBookButton = document.querySelector(".add-book-button")
-addBookButton.addEventListener("click",displayTheForm);
-
-function displayTheForm(){
-    document.getElementById("add-book-form").style.display="";
+function displayTheForm() {
+  document.getElementById("add-book-form").style.display = "";
 }
+
 
 const submitButton = document.querySelector(".submit-button");
-submitButton.addEventListener("click",intakeFormData);
+submitButton.addEventListener("click", intakeFormData);
 
 
-// taking value from User
+// taking value from the user
+function intakeFormData() {
+  let Title = document.getElementById("Title").value;
+  let Author = document.getElementById("Author").value;
+  let Pages = document.getElementById("Pages").value;
+  let Read = document.getElementById("Read").value;
 
-function intakeFormData(){
-    let  Title = document.getElementById("Title").value;
-    let Author = document.getElementById("Author").value;
-    let Pages = document.getElementById("Pages").value;
-    let Read = document.getElementById("Read").value;
+ 
+  if (Title == "" || Author == "" || Pages == "" || Read == "") {
+    return;
+  }
 
-    if((Title == "") || (Author == "") || (Pages == "") || (Read == "")){
-        return;
-    }
-    addBookTooLibrary(Title,Author,Pages,Read);
 
-    document.getElementById("add-book").reset();
+  addBookToLibrary(Title, Author, Pages, Read);
+
+  document.getElementById("add-book").reset();
 }
 
 
-
-// reset button
 const clearButton = document.querySelector(".reset-button");
-clearButton.addEventListener("click",clearForm);
+clearButton.addEventListener("click", clearForm);
 
-function clearForm(){
-    document.getElementById("add-book").reset();
+function clearForm() {
+  document.getElementById("add-book").reset();
 }
-// addBookTooLibrary("The habbit", "J.R.R, Tolkien"," 295 Pages","not Read yet");
-// addBookTooLibrary("The seven habbits of highly effective people","Steven Covery","200 Pages","Read")
-// displayBooksOnPages();

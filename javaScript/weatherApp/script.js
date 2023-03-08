@@ -1,4 +1,4 @@
-// DOM Module Pattern
+
 const domManip = (() => {
     const searchButton = document.querySelector(".search-button");
     const clearButton = document.querySelector(".reset-button");
@@ -10,14 +10,13 @@ const domManip = (() => {
     });
 })();
 
-// Async function to fetch current forcast from user input on form
 async function fetchCurrentWeather(searchCity, searchState, searchCountry) {
     try {
         const searchCity = document.getElementById("search-city").value;
         const searchState = document.getElementById("search-state").value;
         const searchCountry = document.getElementById("search-country").value;
         
-        // Run check to ensure City and Country fields have values
+        
         if (searchCity == "" || searchCountry == "") {
             alert("City and Country are required.  Please try again!");
             return;
@@ -26,13 +25,15 @@ async function fetchCurrentWeather(searchCity, searchState, searchCountry) {
         console.log(searchCity);
         console.log(searchState);
         console.log(searchCountry);
+        const body ={
+            
+        }
 
-        // Run fetch and wait for response JSON
         const response = await fetch("https://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "," + searchState + "," + searchCountry + "&units=imperial&APPID=d1f87e6c9c7218274f8b83bf9e900783", { mode: "cors"});
         const currentData = await response.json();
-        console.log("Fetching current weather data from API....", currentData);
+
         
-        // Construct object for my weather app from the API JSON data
+
         const currentWeather = {
             mainWeather: currentData.weather[0].main,
             place: currentData.name + ", " + searchState.toUpperCase() + " " + currentData.sys.country,
@@ -62,14 +63,11 @@ function clearSearch() {
     clearDOM();
 }
 
-// Function to display cleansed JSON to DOM
+
 function displayWeather(currentWeather) {
     const displayDiv = document.querySelector(".display-div");
 
-    // Call function to clear any DOM elements that may be present from previous search
     clearDOM();
-
-    // Create the elements in the DOM
     const city = document.createElement("p");
     city.textContent = currentWeather.place;
     displayDiv.appendChild(city);
@@ -105,7 +103,6 @@ async function getGiphy(mainWeather) {
 }
 
 function clearDOM() {
-    // Clear the DOM if anything was present from a prior search
     const nodeList = document.querySelectorAll("p");
     if (nodeList !== null) {
         for (let i = 0; i < nodeList.length; i ++) {
